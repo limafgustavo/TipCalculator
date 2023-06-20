@@ -26,17 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding.textinputeditTotal.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
-
-
-                var percentage = binding.seekbarPercentage.progress.toString().toDouble()
-                var totalAccountPrice = s.toString().toDouble()
-                var totalValuePercentage = totalAccountPrice * percentage / 100
-
-                var totalwithpercentage = totalAccountPrice + totalValuePercentage
-
-                binding.textTotalTip.text = "R$ " + totalValuePercentage.toString()
-                binding.textTotalWithTip.text = "R$" + totalwithpercentage.toString()
-
+            updateNumbers()
 
             }
 
@@ -52,7 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.seekbarPercentage.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                var percentageSelected = seekBar.progress.toString()
+                binding.textPercentageSelected.text = "$percentageSelected%"
 
             }
 
@@ -62,14 +54,26 @@ class MainActivity : AppCompatActivity() {
 
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
+                var teste = binding.textinputeditTotal.text.toString()
+                if (teste !=""){updateNumbers()}
 
-                var percentageSelected = seekBar.progress.toString()
-                binding.textPercentageSelected.text = "$percentageSelected%"
-
-
+               // Toast.makeText(this@MainActivity,"Funcionou?",Toast.LENGTH_SHORT).show()
 
 
             }
         })
+    }
+
+    private fun updateNumbers(){
+        var percentage = binding.seekbarPercentage.progress.toString().toDouble()
+        var totalAccountPrice = binding.textinputeditTotal.text.toString().toDouble()
+        var totalValuePercentage = totalAccountPrice * percentage / 100
+
+        
+
+        var totalwithpercentage = totalAccountPrice + totalValuePercentage
+
+        binding.textTotalTip.text =  totalValuePercentage.toString()
+        binding.textTotalWithTip.text = "R$" + totalwithpercentage.toString()
     }
 }
